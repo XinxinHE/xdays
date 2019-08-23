@@ -1,0 +1,26 @@
+{
+  "name": "xday",
+  "version": "1.0.0",
+  "description": "XDay is a website that can help manage blogs and track the progress of blogs ",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xinxin He",
+  "license": "ISC",
+  "dependencies": {
+    "@okta/oidc-middleware": "^1.0.2",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "epilogue": "^0.7.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "sequelize": "^4.42.0",
+    "sqlite3": "^4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
