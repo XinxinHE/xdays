@@ -8,44 +8,45 @@ const { ExpressOIDC } = require('@okta/oidc-middleware');
 const Sequelize = require('sequelize');
 const epilogue = require('epilogue'), ForbiddenError = epilogue.Errors.ForbiddenError;
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 
 // session support is required to use ExpressOIDC(Express OpenID Connect).
 // This code block creates session middleware with the options we passed it. 
 // OIDC is an authentication layer on top of OAuth 2.0
 app.use(session({
-    secret: process.env.RANDOM_SECRET_WORD,
-    resave: true,
-    saveUninitialized: false
+  secret: process.env.RANDOM_SECRET_WORD,
+  resave: true,
+  saveUninitialized: false
 }));
 
 // Creates an instance of ExpressOIDC with the option we passed in.
 const oidc = new ExpressOIDC({
-    issuer: `${process.env.OKTA_ORG_URL}/oauth2/default`,
-    client_id: process.env.OKTA_CLIENT_ID,
-    client_secret: process.env.OKTA_CLIENT_SECRET,
-    redirect_uri: process.env.REDIRECT_URL,
-    scope: 'openid profile',
-    routes: {
-        callback: {
-            path: '/authorization-code/callback',
-            defaultRedirect: '/admin'
-        }
+  issuer: `${process.env.OKTA_ORG_URL}/oauth2/default`,
+  client_id: process.env.OKTA_CLIENT_ID,
+  client_secret: process.env.OKTA_CLIENT_SECRET,
+  redirect_uri: process.env.REDIRECT_URL,
+  scope: 'openid profile',
+  routes: {
+    callback: {
+      path: '/authorization-code/callback',
+      defaultRedirect: '/admin'
     }
+  }
 });
 
 // ExpressOIDC will attach handlers for the /login and /authorization-code/callback routes
 app.use(oidc.router);
 app.use(cors());
 app.use(bodyParser.json());
+//__dirname gives you the path of the currently running file.
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname, './public/home.html'));
 });
- 
-app.get('/admin', oidc.ensureAuthenticated(), (req, res) =>{
+
+app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.html'));
 });
 
@@ -78,12 +79,12 @@ const PostResource = epilogue.resource({
 
 PostResource.all.auth(function (req, res, context) {
   return new Promise(function (resolve, reject) {
-      if (!req.isAuthenticated()) {
-          res.status(401).send({ message: "Unauthorized" });
-          resolve(context.stop);
-      } else {
-          resolve(context.continue);
-      }
+    if (!req.isAuthenticated()) {
+      res.status(401).send({ message: "Unauthorized" });
+      resolve(context.stop);
+    } else {
+      resolve(context.continue);
+    }
   })
 });
 

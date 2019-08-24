@@ -1,0 +1,7 @@
+{
+  "appService.zipIgnorePattern": [
+    ".vscode{,/**}"
+  ],
+  "appService.defaultWebAppToDeploy": "/subscriptions/51901b10-59c5-41c7-b4f4-635348c01722/resourceGroups/xday/providers/Microsoft.Web/sites/xday",
+  "appService.deploySubpath": ""
+}
