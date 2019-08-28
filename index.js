@@ -8,7 +8,7 @@ const { ExpressOIDC } = require('@okta/oidc-middleware');
 const Sequelize = require('sequelize');
 const epilogue = require('epilogue'), ForbiddenError = epilogue.Errors.ForbiddenError;
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 
 // session support is required to use ExpressOIDC(Express OpenID Connect).
@@ -25,7 +25,7 @@ const oidc = new ExpressOIDC({
   issuer: `${process.env.OKTA_ORG_URL}/oauth2/default`,
   client_id: process.env.OKTA_CLIENT_ID,
   client_secret: process.env.OKTA_CLIENT_SECRET,
-  redirect_uri: process.env.REDIRECT_URL,
+  redirect_uri: `${process.env.BASE_URL}:${port}${process.env.REDIRECT_PATH}`,
   scope: 'openid profile',
   routes: {
     callback: {
@@ -43,6 +43,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/home', (req, res) => {
+  console.log(`${process.env.BASE_URL}:${port}${process.env.REDIRECT_PATH}`);
   res.sendFile(path.join(__dirname, './public/home.html'));
 });
 
