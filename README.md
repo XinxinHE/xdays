@@ -17,6 +17,9 @@ Object-Relational Mapping (ORM) is a technique that lets you query and manipulat
 lsof -i tcp:3000
 kill -9 PID
 
+## Error: listen EADDRINUSE :::8080
+killall -9 node
+
 ------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

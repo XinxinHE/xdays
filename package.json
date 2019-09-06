@@ -10,14 +10,16 @@
   "author": "Xinxin He",
   "license": "ISC",
   "dependencies": {
-    "@okta/oidc-middleware": "^1.0.2",
+    "@okta/oidc-middleware": "^2.0.0",
     "body-parser": "^1.18.3",
+    "chalk": "^2.4.2",
     "cors": "^2.8.5",
+    "debug": "^4.1.1",
     "dotenv": "^6.2.0",
-    "epilogue": "^0.7.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "sequelize": "^4.42.0",
+    "finale-rest": "^1.0.6",
+    "sequelize": "^5.18.1",
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
