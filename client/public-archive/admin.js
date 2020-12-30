@@ -4,7 +4,7 @@ const e = React.createElement;
 
 const AppNav = () => (
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">XDay</a>
+        <a class="navbar-brand" href="#">X Days</a>
         <a role="button" class="btn btn-outline-info navbar-btn" href="/logout">Logout</a>
     </nav>
 );

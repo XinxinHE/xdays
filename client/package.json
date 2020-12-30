@@ -14,7 +14,6 @@
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
-    "bootstrap": "^4.5.3",
     "debug": "^4.3.1",
     "lodash": "^4.17.20"
   },
@@ -25,9 +24,12 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.2.2",
+    "bootstrap": "^4.5.3",
     "css-loader": "^1.0.1",
+    "file-loader": "^6.2.0",
     "nodemon": "^1.19.4",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-hot-loader": "^4.13.0",
     "regenerator-runtime": "^0.13.7",

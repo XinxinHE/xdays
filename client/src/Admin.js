@@ -1,6 +1,7 @@
-//import DefaultLogo from "./img/placeholder-img.png";
 import React from "react";
 import { hot } from "react-hot-loader";
+import AppNav from "./AppNav.js";
+import Post from "./Post.js";
 
 class Admin extends React.Component {
     constructor(props) {
@@ -88,8 +89,9 @@ class Admin extends React.Component {
     render() {
         return (
             <div>
-                test
-            </div >
+                <AppNav />
+                <Post />
+            </div>
         );
     }
 }
