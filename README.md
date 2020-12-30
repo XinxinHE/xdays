@@ -1,23 +1,36 @@
-# Develope a blog (Xday) 
+# Develope a blog (Xday)  
+
+## Folder structure
+
+- frontend: react js app
+-- folder: /frontend
+
+- backend: express framework  
+-- folder: index.js
 
 ## Reference tutorial
-https://scotch.io/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes
+
+<https://scotch.io/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes>
 
 ## Okta service is used to handle the user registration, login, logout, etc. It is a free service used to manage user identities
-https://developer.okta.com/
+
+<https://developer.okta.com/>
 
 ## SQLite is the database for storage
 
 ## Sequelize is ORM
+
 Object-Relational Mapping (ORM) is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
 
 ## Epilogue is used to generate REST endpoints
 
-## Kill process 
+## Kill process
+
 lsof -i tcp:3000
 kill -9 PID
 
 ## Error: listen EADDRINUSE :::8080
+
 killall -9 node
 
 ------
