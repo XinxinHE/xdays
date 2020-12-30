@@ -1,32 +1,22 @@
 {
-  "name": "xday",
+  "name": "xdays",
   "version": "1.0.0",
-  "description": "XDay is a website that can help manage blogs and track the progress of blogs ",
+  "description": "XDays client side code",
   "main": "index.js",
   "private": "true",
   "scripts": {
-    "start": "webpack-dev-server --mode development && nodemon index.js",
+    "start": "webpack-dev-server --mode development",
     "build": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Xinxin He",
   "license": "ISC",
   "dependencies": {
-    "@okta/oidc-middleware": "^2.1.0",
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
-    "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
-    "chalk": "^2.4.2",
-    "cors": "^2.8.5",
     "debug": "^4.3.1",
-    "dotenv": "^6.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "finale-rest": "^1.1.1",
-    "lodash": "^4.17.20",
-    "sequelize": "^5.22.3",
-    "sqlite3": "^4.2.0"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
@@ -48,11 +38,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XinxinHE/xday.git"
+    "url": "git+https://github.com/XinxinHE/xdays.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/XinxinHE/xday/issues"
+    "url": "https://github.com/XinxinHE/xdays/issues"
   },
-  "homepage": "https://github.com/XinxinHE/xday#readme"
+  "homepage": "https://github.com/XinxinHE/xdays#readme"
 }

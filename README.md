@@ -3,10 +3,10 @@
 ## Folder structure
 
 frontend: reactjs
-- folder: /src && /public
+- folder: /client
 
 backend: express  
-- file: index.js
+- file: /server
 
 ## Reference tutorial
 
