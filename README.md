@@ -1,4 +1,4 @@
-# Develope a blog (X Days)  
+# XDays is an online progress tracking website
 
 ## Folder structure
 
