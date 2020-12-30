@@ -1,9 +1,9 @@
-# Develope a blog (Xday)  
+# Develope a blog (X Days)  
 
 ## Folder structure
 
 frontend: reactjs
-- folder: /frontend
+- folder: /src && /public
 
 backend: express  
 - file: index.js
