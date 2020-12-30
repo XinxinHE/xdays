@@ -1,4 +1,5 @@
-'use strict';
+const DefaultLogo = require("./img/placeholder-img.png");
+
 const e = React.createElement;
 
 const AppNav = () => (
@@ -33,6 +34,7 @@ const Card = ({ item, handleSubmit, handleEdit, handleDelete, handleCancel }) =>
         return (
             <div class="card mt-4" Style="width: 100%;">
                 <div class="card-body">
+                    <img src={DefaultLogo} />
                     <h5 class="card-title">{title || "No Title"}</h5>
                     <p class="card-text">{content || "No Content"}</p>
                     <button type="button" class="btn btn-outline-danger btn-sm" onClick={handleDelete}>Delete</button>
@@ -102,6 +104,7 @@ class Admin extends React.Component {
         const body = JSON.stringify({
             title: data.get('title'),
             content: data.get('content'),
+            image: DefaultLogo,
         });
 
         const headers = {

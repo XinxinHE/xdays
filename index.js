@@ -78,13 +78,17 @@ database.authenticate().then(() => {
 
 // Define models
 const Post = database.define('Post', {
+  image: {
+    type: Sequelize.BLOB,
+    allowNull: true,
+  },
   title: Sequelize.STRING,
   content: Sequelize.TEXT
 });
 
-finale.initialize({ 
-  app: app, 
-  sequelize: database 
+finale.initialize({
+  app: app,
+  sequelize: database
 });
 
 // Create REST resources
@@ -95,10 +99,11 @@ const PostResource = finale.resource({
 
 database
   .sync()
-  .then(() => {oidc.on('ready', () => {
-    app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
+  .then(() => {
+    oidc.on('ready', () => {
+      app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
+    });
   });
-});
 
 oidc.on('error', err => {
   // An error occurred while setting up OIDC

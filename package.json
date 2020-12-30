@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "XDay is a website that can help manage blogs and track the progress of blogs ",
   "main": "index.js",
+  "private": "true",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "webpack-dev-server --mode development && nodemon index.js",
+    "build": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Xinxin He",
@@ -22,11 +24,27 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "finale-rest": "^1.1.1",
+    "lodash": "^4.17.20",
     "sequelize": "^5.22.3",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^1.0.1",
+    "nodemon": "^1.19.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-hot-loader": "^4.13.0",
+    "regenerator-runtime": "^0.13.7",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.1.8"
   },
   "repository": {
     "type": "git",

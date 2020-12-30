@@ -12,6 +12,8 @@ backend: express
 
 <https://scotch.io/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes>
 
+Create a react app from scratch <https://blog.usejournal.com/creating-a-react-app-from-scratch-f3c693b84658>
+
 ## Okta service is used to handle the user registration, login, logout, etc. It is a free service used to manage user identities
 
 <https://developer.okta.com/>
