@@ -78,12 +78,9 @@ database.authenticate().then(() => {
 
 // Define models
 const Post = database.define('Post', {
-  image: {
-    type: Sequelize.BLOB,
-    allowNull: true,
-  },
   title: Sequelize.STRING,
-  content: Sequelize.TEXT
+  content: Sequelize.TEXT,
+  image: Sequelize.BLOB
 });
 
 finale.initialize({

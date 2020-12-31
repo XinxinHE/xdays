@@ -49,6 +49,7 @@ class Admin extends React.Component {
     constructor(props) {
         super(props);
         this.state = { data: [] };
+        this.baseUrl = "http://localhost:8080";
     }
 
     componentDidMount() {
@@ -56,7 +57,7 @@ class Admin extends React.Component {
     }
 
     getPosts = async () => {
-        const response = await fetch('/posts');
+        const response = await fetch(this.baseUrl +'/posts');
         const data = await response.json();
         data.forEach(item => item.editMode = false);
         this.setState({ data })
