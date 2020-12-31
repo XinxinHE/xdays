@@ -1,6 +1,6 @@
 # XDays is an online progress tracking website
 
-## Folder structure
+### Folder structure
 
 frontend: reactjs
 - folder: /client
@@ -8,9 +8,9 @@ frontend: reactjs
 backend: express  
 - file: /server
 
-## Reference tutorial
+### Reference tutorial
 
-<https://scotch.io/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes>
+Build a blog using expressjs and react <https://scotch.io/tutorials/build-a-blog-using-expressjs-and-react-in-30-minutes>
 
 Create a react app from scratch <https://blog.usejournal.com/creating-a-react-app-from-scratch-f3c693b84658>
 
