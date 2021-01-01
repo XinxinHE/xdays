@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import AppNav from "./AppNav.js";
 import Post from "./Post.js";
 import DefaultLogo from "./img/placeholder-img.png";
-import"./Admin.css";
+import "./Admin.css";
 
 const baseUrl = "http://localhost:8080";
 
@@ -98,11 +98,9 @@ class Admin extends React.Component {
     render() {
         return (
             <div className="x-container">
-                <AppNav />
-                <Button onClick={this.addNewPost}>
-                    Add New Post
-               </Button>
-               <Container>
+                <AppNav/>
+                <Container>
+                    <Button className="x-btn-addpost" onClick={this.addNewPost}>Add New Post</Button>
                     <Row >
                         {
                             this.state.data.length > 0 ? (
