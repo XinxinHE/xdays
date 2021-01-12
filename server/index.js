@@ -104,45 +104,45 @@ var schema = new Schema({
   content: String
 });
 
-var Model = mongoose.model("model", schema, "myPosts");
+var Model = mongoose.model("model", schema, "Stories");
 
-app.post('/posts', upload.single('image'), function (req, res) {
+app.post('/stories', upload.single('image'), function (req, res) {
   if (!req.file) {
     return;
   }
-  const newPost = new Model({ 
+  const newStory = new Model({ 
     title: req.body.title, 
     content: req.body.content, 
     imagePath: req.file.path
   });
-  newPost.save(function(err, doc) {
+  newStory.save(function(err, story) {
     if (err) return console.error(err);
-    res.status(200).json(doc);
+    res.status(200).json(story);
     console.log("Document inserted succussfully!");
   });
 });
 
-app.get('/posts', function(req, res) {
+app.get('/stories', function(req, res) {
   Model.find({}, function(err, result) {
     if (err) {
       console.log(err);
     } else {
       const response = [];
-      result.forEach(post => {
+      result.forEach(story => {
         const item = {};
-        item.image = "http://localhost:8080/" + post.imagePath;
-        item.title = post.title;
-        item.content = post.content;
-        item.id = post._id;
+        item.image = "http://localhost:8080/" + story.imagePath;
+        item.title = story.title;
+        item.content = story.content;
+        item.id = story._id;
         response.push(item);
       });
       res.status(200).json(response);
-      console.log("Get posts succussfully!");
+      console.log("Get stories succussfully!");
     }
   });
 });
 
-app.put('/posts/:id', upload.single('image'), function (req, res) {
+app.put('/stories/:id', upload.single('image'), function (req, res) {
   let updateQuery = {};
   if (req.body.title) {
     updateQuery.title = req.body.title;
@@ -157,27 +157,27 @@ app.put('/posts/:id', upload.single('image'), function (req, res) {
     $set: updateQuery
   }).then(result => {
     res.status(200).json({ message: req.params.id + " updated succussfully!"});
-    console.log("Put post succussfully!");
+    console.log("Put story succussfully!");
   });
 });
 
-app.delete('/posts/:id', function (req, res) {
-  Model.findOneAndDelete({_id: req.params.id}, function (err, post) { 
+app.delete('/stories/:id', function (req, res) {
+  Model.findOneAndDelete({_id: req.params.id}, function (err, story) { 
     if (err) { 
         console.log(err) 
     } 
     else{ 
-        console.log("Deleted post : ", post); 
+        console.log("Deleted story : ", story); 
         // Remove the image from file
-        if (post.imagePath) {
-          fs.unlink(path.join(__dirname, post.imagePath), function(err) {
+        if (story.imagePath) {
+          fs.unlink(path.join(__dirname, story.imagePath), function(err) {
             console.log(err);
           });
         }
     } 
   }).then(result => {
     res.status(200).json({ message: req.params.id + " deleted succussfully!"});
-    console.log("Deleted post succussfully!");
+    console.log("Delete story succussfully!");
   });;
 });
 

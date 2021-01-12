@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import AppNav from "./AppNav.js";
-import Post from "./Post.js";
+import Story from "./Story.js";
 import DefaultLogo from "./img/placeholder-img.png";
 import "./Admin.css";
 
@@ -18,23 +18,23 @@ class Admin extends React.Component {
     }
 
     componentDidMount() {
-        this.getPosts();
+        this.getStories();
     }
 
-    getPosts = async () => {
-        const response = await fetch(baseUrl + '/posts', {
+    getStories = async () => {
+        const response = await fetch(baseUrl + '/stories', {
             method: 'GET'
         });
         const data = await response.json();
 
-        console.log("getPosts: \n");
+        console.log("getStories: \n");
         console.log(data);
 
         data.forEach(item => item.editMode = false);
         this.setState({ data });
     }
 
-    addNewPost = () => {
+    addNewStory = () => {
         const data = this.state.data;
         data.unshift({
             editMode: true,
@@ -46,12 +46,12 @@ class Admin extends React.Component {
     }
 
     handleCancel = async () => {
-        await this.getPosts();
+        await this.getStories();
     }
 
-    handleEdit = (postId) => {
+    handleEdit = (storyId) => {
         const data = this.state.data.map((item) => {
-            if (item.id === postId) {
+            if (item.id === storyId) {
                 item.editMode = true;
             }
             return item;
@@ -59,11 +59,11 @@ class Admin extends React.Component {
         this.setState({ data });
     }
 
-    handleDelete = async (postId) => {
-        await fetch(baseUrl + `/posts/${postId}`, {
+    handleDelete = async (storyId) => {
+        await fetch(baseUrl + `/stories/${storyId}`, {
             method: 'DELETE'
         });
-        await this.getPosts();
+        await this.getStories();
     }
 
     handleSubmit = async (event) => {
@@ -75,20 +75,20 @@ class Admin extends React.Component {
             body.append("title", data.get("title"));
             body.append("content", data.get("content"));
             if (data.get('id')) {
-                await fetch(`${baseUrl}/posts/${data.get('id')}`, {
+                await fetch(`${baseUrl}/stories/${data.get('id')}`, {
                     method: 'PUT',
                     body: body
                 });
             } else {
-                await fetch(`${baseUrl}/posts`, {
+                await fetch(`${baseUrl}/stories`, {
                     method: 'POST',
                     body: body
                 });
             }
-            await this.getPosts();
+            await this.getStories();
         } catch (err) {
             console.error(err);
-            await this.getPosts();
+            await this.getStories();
         }
     }
 
@@ -97,13 +97,13 @@ class Admin extends React.Component {
             <div className="x-container">
                 <AppNav/>
                 <Container>
-                    <Button className="x-btn-addpost" onClick={this.addNewPost}>Add New Post</Button>
+                    <Button className="x-btn-addpost" onClick={this.addNewStory}>Add New Story</Button>
                     <Row >
                         {
                             this.state.data.length > 0 ? (
                                 this.state.data.map(item =>
                                     <Col xs="12" sm="6" md="4" lg="3" key={item.id ?? -1}>
-                                        <Post item={item}
+                                        <Story item={item}
                                             handleSubmit={this.handleSubmit}
                                             handleEdit={this.handleEdit.bind(this, item.id)}
                                             handleDelete={this.handleDelete.bind(this, item.id)}
@@ -112,7 +112,7 @@ class Admin extends React.Component {
                                     </Col>)) 
                             : (
                                 <div>
-                                    <div>You don't have any posts. Use the "Add New Post" button to add some new posts!</div>
+                                    <div>You don't have any posts. Use the "Add New Story" button to add some new stories!</div>
                                 </div>
                             )
                         }

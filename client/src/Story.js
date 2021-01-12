@@ -2,11 +2,10 @@ import React from "react";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import DefaultLogo from "./img/placeholder-img.png";
 import ImageUpload from "./ImageUpload.js"; 
-import "./Post.css";
+import "./Story.css";
 
-function Post(props) {
+function Story(props) {
     if (props.item.editMode) {
         return(
             <Card className="x-card-wrapper">
@@ -43,4 +42,4 @@ function Post(props) {
     }
 }
 
-export default Post;
+export default Story;

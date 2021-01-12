@@ -1,5 +1,5 @@
 import React from "react";
-import "./Post.css";
+import "./Story.css";
 
 class ImageUpload extends React.Component {
     constructor(props) {
