@@ -1,13 +1,10 @@
 require('dotenv').config();
-const chalk = require('chalk');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const { ExpressOIDC } = require('@okta/oidc-middleware');
-const Sequelize = require('sequelize');
-const finale = require('finale-rest'), ForbiddenError = finale.Errors.ForbiddenError;
 const app = express();
 const multer  = require('multer');
 const fs = require('fs');
@@ -16,9 +13,6 @@ const Schema = mongoose.Schema;
 
 const port = process.env.PORT || 8080;
 
-exports.test = function(req,res) {
-  res.render('test');
-};
 // session support is required to use ExpressOIDC(Express OpenID Connect).
 // This code block creates session middleware with the options we passed it. 
 // OIDC is an authentication layer on top of OAuth 2.0
