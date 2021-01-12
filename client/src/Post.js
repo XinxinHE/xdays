@@ -3,14 +3,18 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import DefaultLogo from "./img/placeholder-img.png";
+import ImageUpload from "./ImageUpload.js"; 
 import "./Post.css";
 
 function Post(props) {
     if (props.item.editMode) {
         return(
             <Card className="x-card-wrapper">
-                <Form onSubmit={props.handleSubmit}>
+                <Form encType="multipart/form-data" className="x-card-form" onSubmit={props.handleSubmit} name="formPost">
                     <input type="hidden" name="id" value={props.item.id} />
+                    <Form.Group controlId="formPostImage">
+                        <ImageUpload defaultImage={props.item.image}/>
+                    </Form.Group>
                     <Form.Group controlId="formPostTitle">
                         <Form.Label>Title</Form.Label>
                         <Form.Control type="text" name="title" placeholder="Enter title" defaultValue={props.item.title} />
@@ -27,7 +31,7 @@ function Post(props) {
     } else {
         return (
             <Card className="x-card-wrapper">
-                <Card.Img variant="top" src={DefaultLogo} />
+                <Card.Img variant="top" src={props.item.image} />
                 <Card.Body>
                     <Card.Title>{props.item.title}</Card.Title>
                     <Card.Text>{props.item.content}</Card.Text>

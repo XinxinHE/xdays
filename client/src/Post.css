@@ -1,3 +1,20 @@
 .x-card-wrapper {
     margin-bottom: 20px;
 }
+
+.x-card-form {
+    padding: 10px 10px;
+}
+
+.x-image-uploader {
+    width: 100%;
+}
+
+.x-image-uploader input {
+    width: 100%;
+    overflow: hidden;
+}
+
+.x-image-uploader img {
+    width: 100%;
+}

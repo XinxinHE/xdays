@@ -22,10 +22,16 @@ class Admin extends React.Component {
     }
 
     getPosts = async () => {
-        const response = await fetch(baseUrl + '/posts');
+        const response = await fetch(baseUrl + '/posts', {
+            method: 'GET'
+        });
         const data = await response.json();
+
+        console.log("getPosts: \n");
+        console.log(data);
+
         data.forEach(item => item.editMode = false);
-        this.setState({ data })
+        this.setState({ data });
     }
 
     addNewPost = () => {
@@ -33,7 +39,8 @@ class Admin extends React.Component {
         data.unshift({
             editMode: true,
             title: "",
-            content: ""
+            content: "",
+            image: DefaultLogo
         })
         this.setState({ data })
     }
@@ -54,45 +61,35 @@ class Admin extends React.Component {
 
     handleDelete = async (postId) => {
         await fetch(baseUrl + `/posts/${postId}`, {
-            method: 'DELETE',
-            headers: {
-                'content-type': 'application/json',
-                accept: 'application/json',
-            },
+            method: 'DELETE'
         });
         await this.getPosts();
     }
 
     handleSubmit = async (event) => {
-        event.preventDefault();
-        const data = new FormData(event.target);
-
-        const body = JSON.stringify({
-            title: data.get('title') ?? "empty",
-            content: data.get('content') ?? "empty",
-            image: DefaultLogo,
-        });
-        
-        const headers = {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        };
-
-        console.log(data.get('id'));
-        if (data.get('id')) {
-            await fetch(`${baseUrl}/posts/${data.get('id')}`, {
-                method: 'PUT',
-                headers,
-                body,
-            });
-        } else {
-            await fetch(baseUrl + '/posts', {
-                method: 'POST',
-                headers,
-                body,
-            });
+        try {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            const body = new FormData();
+            body.append("image", data.get("image"), "postImage");
+            body.append("title", data.get("title"));
+            body.append("content", data.get("content"));
+            if (data.get('id')) {
+                await fetch(`${baseUrl}/posts/${data.get('id')}`, {
+                    method: 'PUT',
+                    body: body
+                });
+            } else {
+                await fetch(`${baseUrl}/posts`, {
+                    method: 'POST',
+                    body: body
+                });
+            }
+            await this.getPosts();
+        } catch (err) {
+            console.error(err);
+            await this.getPosts();
         }
-        await this.getPosts();
     }
 
     render() {

@@ -9,8 +9,16 @@ const { ExpressOIDC } = require('@okta/oidc-middleware');
 const Sequelize = require('sequelize');
 const finale = require('finale-rest'), ForbiddenError = finale.Errors.ForbiddenError;
 const app = express();
+const multer  = require('multer');
+const fs = require('fs');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const port = process.env.PORT || 8080;
 
+exports.test = function(req,res) {
+  res.render('test');
+};
 // session support is required to use ExpressOIDC(Express OpenID Connect).
 // This code block creates session middleware with the options we passed it. 
 // OIDC is an authentication layer on top of OAuth 2.0
@@ -65,47 +73,131 @@ app.get('/', (req, res) => {
   res.redirect('/home');
 });
 
-const database = new Sequelize({
-  dialect: 'sqlite',
-  storage: './db.sqlite'
+var multerStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads/')
+  },
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `xdays-${Date.now()}.${ext}`);
+  }
 });
 
-database.authenticate().then(() => {
-  console.log('Connection has been established successfully.');
-}).catch(err => {
-  console.error('Unable to connect to the database:', err);
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else if (file.mimetype.startsWith('application')) {
+    cb(null, false);
+  } else {
+    cb(new Error('Not an image! Please upload an image.'), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
 });
 
-// Define models
-const Post = database.define('Post', {
-  title: Sequelize.STRING,
-  content: Sequelize.TEXT,
-  image: Sequelize.BLOB
+mongoose.connect('mongodb+srv://xinxhe:hxhx11180103@cluster0.djtwo.mongodb.net/xinxhe?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+  console.log("Connection Successful!");
+});
+var schema = new Schema({
+  imagePath: String,
+  title: String,
+  content: String
 });
 
-finale.initialize({
-  app: app,
-  sequelize: database
-});
+var Model = mongoose.model("model", schema, "myPosts");
 
-// Create REST resources
-const PostResource = finale.resource({
-  model: Post,
-  endpoints: ['/posts', '/posts/:id'],
-});
-
-database
-  .sync()
-  .then(() => {
-    oidc.on('ready', () => {
-      app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
-    });
+app.post('/posts', upload.single('image'), function (req, res) {
+  if (!req.file) {
+    return;
+  }
+  const newPost = new Model({ 
+    title: req.body.title, 
+    content: req.body.content, 
+    imagePath: req.file.path
   });
+  newPost.save(function(err, doc) {
+    if (err) return console.error(err);
+    res.status(200).json(doc);
+    console.log("Document inserted succussfully!");
+  });
+});
+
+app.get('/posts', function(req, res) {
+  Model.find({}, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      const response = [];
+      result.forEach(post => {
+        const item = {};
+        item.image = "http://localhost:8080/" + post.imagePath;
+        item.title = post.title;
+        item.content = post.content;
+        item.id = post._id;
+        response.push(item);
+      });
+      res.status(200).json(response);
+      console.log("Get posts succussfully!");
+    }
+  });
+});
+
+app.put('/posts/:id', upload.single('image'), function (req, res) {
+  let updateQuery = {};
+  if (req.body.title) {
+    updateQuery.title = req.body.title;
+  }
+  if (req.body.content) {
+    updateQuery.content = req.body.content;
+  }
+  if (req.file && req.file.path) {
+    updateQuery.imagePath = req.file.path;
+  }
+  Model.updateOne({_id: req.params.id}, {
+    $set: updateQuery
+  }).then(result => {
+    res.status(200).json({ message: req.params.id + " updated succussfully!"});
+    console.log("Put post succussfully!");
+  });
+});
+
+app.delete('/posts/:id', function (req, res) {
+  Model.findOneAndDelete({_id: req.params.id}, function (err, post) { 
+    if (err) { 
+        console.log(err) 
+    } 
+    else{ 
+        console.log("Deleted post : ", post); 
+        // Remove the image from file
+        if (post.imagePath) {
+          fs.unlink(path.join(__dirname, post.imagePath), function(err) {
+            console.log(err);
+          });
+        }
+    } 
+  }).then(result => {
+    res.status(200).json({ message: req.params.id + " deleted succussfully!"});
+    console.log("Deleted post succussfully!");
+  });;
+});
+
+
+app.get('/public/uploads/:id', function(req, res) {
+  // Display image
+  res.sendFile(path.join(__dirname, req.url));
+});
 
 oidc.on('error', err => {
   // An error occurred while setting up OIDC
   console.log("oidc error: ", err);
 });
 
-//app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
-
+oidc.on('ready', () => {
+  app.listen(port, () => console.log(`My Blog App listening on port ${port}!`))
+});
