@@ -14,36 +14,34 @@ Build a blog using expressjs and react <https://scotch.io/tutorials/build-a-blog
 
 Create a react app from scratch <https://blog.usejournal.com/creating-a-react-app-from-scratch-f3c693b84658>
 
-### Okta service is used to handle the user registration, login, logout, etc. It is a free service used to manage user identities
+### Dependencies
 
-<https://developer.okta.com/>
+- Multer is used to upload image from frontend to server folders
 
-### SQLite is the database for storage
+- fs used to read/delete/send files
 
-### Sequelize is ORM
+- mongoose for operating mongodb
 
-Object-Relational Mapping (ORM) is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
+### Dependencies not used anymore 
 
-### Epilogue is used to generate REST endpoints
+- Okta service is used to handle the user registration, login, logout, etc. It is a free service used to manage user identities<https://developer.okta.com/>
 
-### Multer is used to upload image from frontend to server folders
+- SQLite is the database for storage
 
-### fs used to read/delete/send files
+- Sequelize is ORM: Object-Relational Mapping (ORM) is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
 
-### mongoose for operating mongodb
+- Epilogue is used to generate REST endpoints
 
 ## Available Scripts
 
-### Kill process
+### `Kill process`
 
 lsof -i tcp:3000
 kill -9 PID
 
-### Error: listen EADDRINUSE :::8080
+### `Error: listen EADDRINUSE :::8080`
 
 killall -9 node
-
-In the project directory, you can run:
 
 ### `npm start`
 
