@@ -43,7 +43,7 @@ app.use(oidc.router);
 app.use(cors());
 app.use(bodyParser.json());
 //__dirname gives you the path of the currently running file.
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.get('/protected', oidc.ensureAuthenticated(), (req, res) => {
   res.send('Top Secret');
@@ -60,10 +60,6 @@ app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
 
 app.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/home');
-});
-
-app.get('/', (req, res) => {
   res.redirect('/home');
 });
 
@@ -136,7 +132,7 @@ app.get('/stories', function(req, res) {
         item.id = story._id;
         response.push(item);
       });
-      res.status(200).json(response);
+      res.json(response);
       console.log("Get stories succussfully!");
     }
   });
@@ -169,7 +165,7 @@ app.delete('/stories/:id', function (req, res) {
     else{ 
         console.log("Deleted story : ", story); 
         // Remove the image from file
-        if (story.imagePath) {
+        if (story && story.imagePath) {
           fs.unlink(path.join(__dirname, story.imagePath), function(err) {
             console.log(err);
           });
@@ -185,6 +181,10 @@ app.delete('/stories/:id', function (req, res) {
 app.get('/public/uploads/:id', function(req, res) {
   // Display image
   res.sendFile(path.join(__dirname, req.url));
+});
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
 });
 
 oidc.on('error', err => {

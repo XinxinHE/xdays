@@ -8,13 +8,14 @@ import AppNav from "./AppNav.js";
 import Story from "./Story.js";
 import DefaultLogo from "./img/placeholder-img.png";
 import "./Admin.css";
+import { Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8080";
 
 class Admin extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
+        this.state = { data: [], disableAddBtn: false };
     }
 
     componentDidMount() {
@@ -41,7 +42,8 @@ class Admin extends React.Component {
             title: "",
             content: "",
             image: DefaultLogo
-        })
+        });
+        data.disableAddBtn = true;
         this.setState({ data })
     }
 
@@ -97,7 +99,9 @@ class Admin extends React.Component {
             <div className="x-container">
                 <AppNav/>
                 <Container>
-                    <Button className="x-btn-addpost" onClick={this.addNewStory}>Add New Story</Button>
+                    <Button className="x-btn-addpost" 
+                            onClick={this.addNewStory} 
+                            disabled={this.state.data.disableAddBtn}>Add a New Story</Button>
                     <Row >
                         {
                             this.state.data.length > 0 ? (
