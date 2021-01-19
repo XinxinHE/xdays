@@ -18,3 +18,7 @@
 .x-image-uploader img {
     width: 100%;
 }
+
+.x-card-link {
+    text-decoration: none;
+}

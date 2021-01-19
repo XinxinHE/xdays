@@ -1,14 +1,12 @@
 import React from "react";
 import { hot } from "react-hot-loader";
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import AppNav from "./AppNav.js";
 import Story from "./Story.js";
 import DefaultLogo from "./img/placeholder-img.png";
 import "./Admin.css";
-import { Link } from "react-router-dom";
 
 const baseUrl = "http://localhost:8080";
 
@@ -44,7 +42,7 @@ class Admin extends React.Component {
             image: DefaultLogo
         });
         data.disableAddBtn = true;
-        this.setState({ data })
+        this.setState({ data });
     }
 
     handleCancel = async () => {
@@ -99,28 +97,30 @@ class Admin extends React.Component {
             <div className="x-container">
                 <AppNav/>
                 <Container>
-                    <Button className="x-btn-addpost" 
-                            onClick={this.addNewStory} 
-                            disabled={this.state.data.disableAddBtn}>Add a New Story</Button>
-                    <Row >
+                    <div className="x-btn-addpost" >
+                        <Button variant="contained" color="primary" 
+                                onClick={this.addNewStory} 
+                                disabled={this.state.data.disableAddBtn}>Add a New Story</Button>
+                    </div>
+                    <Grid container spacing={3}>
                         {
                             this.state.data.length > 0 ? (
                                 this.state.data.map(item =>
-                                    <Col xs="12" sm="6" md="4" lg="3" key={item.id ?? -1}>
+                                    <Grid item xs={12} sm={6} md={3} lg={2} key={item.id ?? -1}>
                                         <Story item={item}
                                             handleSubmit={this.handleSubmit}
                                             handleEdit={this.handleEdit.bind(this, item.id)}
                                             handleDelete={this.handleDelete.bind(this, item.id)}
                                             handleCancel={this.handleCancel}
                                         />
-                                    </Col>)) 
+                                    </Grid>))
                             : (
                                 <div>
                                     <div>You don't have any posts. Use the "Add New Story" button to add some new stories!</div>
                                 </div>
                             )
                         }
-                    </Row>
+                    </Grid>
                 </Container>
             </div>
         );
