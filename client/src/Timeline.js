@@ -7,10 +7,16 @@ import Grid from '@material-ui/core/Grid';
 import AppNav from "./AppNav.js";
 import TimelinePost from "./TimelinePost.js";
 
+const baseUrl = "http://localhost:8080";
+
 class Timeline extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {timelinePosts: [{id: 123, title: "1", content: "test"}, {id: 124, title: "2", content: "test2"}]};
+        this.state = {timelinePosts: []};
+    }
+
+    componentDidMount() {
+        this.getTimelinePosts();
     }
 
     getTimelinePosts = async () => {
@@ -34,10 +40,40 @@ class Timeline extends React.Component {
             content: ""
         });
         timelinePosts.disableAddBtn = true;
-        console.log(timelinePosts);
         this.setState({ timelinePosts });
     }
 
+    handleSubmit = async (event) => {
+        try {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            const body = {
+                title: data.get("postTitle"),
+                content: data.get("postContent"),
+                storyId: this.props.storyId
+            };
+
+            if (data.get('postId')) {
+                await fetch(`${baseUrl}/timelinePosts/${data.get('postId')}`, {
+                    method: 'PUT',
+                    body: body
+                });
+            } else {
+                await fetch(`${baseUrl}/timelinePosts`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+            }
+            await this.getTimelinePosts();
+        } catch (err) {
+            console.error(err);
+            await this.getTimelinePosts();
+        }
+    }
 
     render() {
         return (
@@ -56,7 +92,8 @@ class Timeline extends React.Component {
                             this.state.timelinePosts.length > 0 ? (
                                 this.state.timelinePosts.map(item =>
                                     <Grid item xs={12} key={item.id ?? -1}>
-                                        <TimelinePost item={item}/>
+                                        <TimelinePost item={item}
+                                                    handleSubmit={this.handleSubmit}/>
                                     </Grid>)) 
                             : (
                                 <div>

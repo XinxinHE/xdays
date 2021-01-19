@@ -9,7 +9,7 @@ function App() {
         <Switch>
             <Route exact path="/" component={Admin}/>
             <Route exact path="/Story" component={Timeline}/>
-            <Route exact path="/Story/:storyid" render={props => <Timeline {...props.match.params} />} />
+            <Route exact path="/Story/:storyId" render={props => <Timeline {...props.match.params} />} />
         </Switch>
     );
 }

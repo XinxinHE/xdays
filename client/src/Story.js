@@ -17,7 +17,7 @@ function Story(props) {
     if (props.item.editMode) {
         return(
             <Card className="x-card-wrapper">
-                <form encType="multipart/form-data" className="x-card-form" onSubmit={props.handleSubmit} name="formPost">
+                <form encType="multipart/form-data" className="x-card-form" onSubmit={props.handleSubmit} name="formStory">
                     <input type="hidden" name="id" value={props.item.id} />
                     <FormControl>
                         <ImageUpload defaultImage={props.item.image}/>
@@ -30,8 +30,8 @@ function Story(props) {
                         <InputLabel>Description</InputLabel>
                         <Input type="text" name="content" placeholder="Enter content" defaultValue={props.item.content} />
                     </FormControl>
-                    <Button variant="primary" type="submit">Submit</Button>{' '}
-                    <Button variant="primary" type="button" onClick={props.handleCancel}>Cancel</Button>
+                    <Button size="small" color="primary" type="submit">Submit</Button>{' '}
+                    <Button size="small" color="primary" type="button" onClick={props.handleCancel}>Cancel</Button>
                 </form>
             </Card>
         );

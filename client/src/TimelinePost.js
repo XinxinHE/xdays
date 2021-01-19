@@ -14,17 +14,17 @@ function TimelinePost(props) {
         return(
             <Card className="x-card-wrapper">
                 <form encType="multipart/form-data" className="x-card-form" onSubmit={props.handleSubmit} name="formPost">
-                    <input type="hidden" name="id" value={props.item.id} />
-                    <FormControl controlId="formPostTitle">
+                    <input type="hidden" name="postId" value={props.item.id} />
+                    <FormControl fullWidth={true}>
                         <InputLabel>Title</InputLabel>
-                        <Input type="text" name="title" placeholder="Enter title" defaultValue={props.item.title} />
+                        <Input type="text" name="postTitle" placeholder="Enter title" defaultValue={props.item.title} />
                     </FormControl>
-                    <FormControl controlId="formPostContent">
+                    <FormControl fullWidth={true}>
                         <InputLabel>Description</InputLabel>
-                        <Input type="text" name="content" placeholder="Enter content" defaultValue={props.item.content}/>
+                        <Input type="text" name="postContent" placeholder="Enter content" defaultValue={props.item.content}/>
                     </FormControl>
-                    <Button variant="primary" type="submit">Submit</Button>{' '}
-                    <Button variant="primary" type="button" onClick={props.handleCancel}>Cancel</Button>
+                    <Button size="small" color="primary" type="submit">Submit</Button>{' '}
+                    <Button size="small" color="primary" type="button" onClick={props.handleCancel}>Cancel</Button>
                 </form>
             </Card>
         );
