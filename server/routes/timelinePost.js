@@ -12,7 +12,7 @@ var postSchema = new Schema({
 var PostModel = mongoose.model("timelinePost", postSchema, "TimelinePosts");
 
 exports.getTimelinePosts = function (req, res) {
-	PostModel.find({}, function (err, result) {
+	PostModel.find({storyId: req.params.storyId}, function (err, result) {
 		if (err) {
 			console.log(err);
 		} else {

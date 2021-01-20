@@ -110,7 +110,7 @@ app.get('/public/uploads/:id', function (req, res) {
 	res.sendFile(path.join(appRoot, req.url));
 });
 
-app.get('/timelinePosts', timelinePost.getTimelinePosts);
+app.get('/timelinePosts/:storyId', timelinePost.getTimelinePosts);
 app.post('/timelinePosts', timelinePost.postTimelinePosts);
 app.put('/timelinePosts/:id', timelinePost.updateTimelinePostById);
 

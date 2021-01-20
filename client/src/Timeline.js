@@ -20,7 +20,7 @@ class Timeline extends React.Component {
     }
 
     getTimelinePosts = async () => {
-        const response = await fetch(baseUrl + '/timelinePosts', {
+        const response = await fetch(`${baseUrl}/timelinePosts/${this.props.storyId}`, {
             method: 'GET'
         });
         const timelinePosts = await response.json();
