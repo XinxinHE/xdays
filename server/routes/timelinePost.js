@@ -21,6 +21,7 @@ exports.getTimelinePosts = function (req, res) {
 				const item = {};
 				item.title = post.title;
 				item.content = post.content;
+				item.storyId = post.storyId;
 				item.id = post._id;
 				response.push(item);
 			});
@@ -58,5 +59,19 @@ exports.updateTimelinePostById = function (req, res) {
 	}).then(result => {
 		res.status(200).json({ message: req.params.id + " updated succussfully!" });
 		console.log("Put timeline post succussfully!");
+	});
+}
+
+exports.deleteTimelinePost = function(req, res) {
+	PostModel.findOneAndDelete({storyId: req.params.storyId, _id: req.params.postId}, function(err, post) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+			console.log("Deleted timeline post: ", post);
+		}
+	}).then(result => {
+		res.status(200).json({ message: req.params.storyId + " " + req.params.postId  + " deleted succussfully!" });
+		console.log("Deleted timeline post succussfully!");
 	});
 }

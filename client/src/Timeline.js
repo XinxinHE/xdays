@@ -12,7 +12,8 @@ const baseUrl = "http://localhost:8080";
 class Timeline extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {timelinePosts: []};
+        this.state = { timelinePosts: [], disableAddBtn: false };
+        this.postInEdit = false; // Only allow one post in Edit
     }
 
     componentDidMount() {
@@ -29,6 +30,8 @@ class Timeline extends React.Component {
         console.log(timelinePosts);
 
         timelinePosts.forEach(item => item.editMode = false);
+        this.postInEdit = false;
+
         this.setState({ timelinePosts });
     }
 
@@ -41,6 +44,31 @@ class Timeline extends React.Component {
         });
         timelinePosts.disableAddBtn = true;
         this.setState({ timelinePosts });
+    }
+
+    handleEdit = (postId) => {
+        if (this.postInEdit) {
+            return;
+        }
+        const timelinePosts = this.state.timelinePosts.map((item) => {
+            if (item.id === postId) {
+                item.editMode = true;
+                this.postInEdit = true;
+            }
+            return item;
+        });
+        this.setState({ timelinePosts });
+    }
+
+    handleCancel = async () => {
+        await this.getTimelinePosts();
+    }
+
+    handleDelete = async (postId) => {
+        await fetch(`${baseUrl}/timelinePosts/${this.props.storyId}/${postId}`, {
+            method: 'DELETE'
+        });
+        await this.getTimelinePosts();
     }
 
     handleSubmit = async (event) => {
@@ -68,11 +96,10 @@ class Timeline extends React.Component {
                     body: JSON.stringify(body)
                 });
             }
-            await this.getTimelinePosts();
         } catch (err) {
             console.error(err);
-            await this.getTimelinePosts();
         }
+        await this.getTimelinePosts();
     }
 
     render() {
@@ -93,7 +120,11 @@ class Timeline extends React.Component {
                                 this.state.timelinePosts.map(item =>
                                     <Grid item xs={12} key={item.id ?? -1}>
                                         <TimelinePost item={item}
-                                                    handleSubmit={this.handleSubmit}/>
+                                            handleSubmit={this.handleSubmit}
+                                            handleEdit={this.handleEdit.bind(this, item.id)}
+                                            handleDelete={this.handleDelete.bind(this, item.id)}
+                                            handleCancel={this.handleCancel}
+                                        />
                                     </Grid>)) 
                             : (
                                 <div>

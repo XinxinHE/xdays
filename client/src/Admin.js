@@ -13,7 +13,8 @@ const baseUrl = "http://localhost:8080";
 class Admin extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [], disableAddBtn: false };
+        this.state = { stories: [], disableAddBtn: false };
+        this.postInEdit = false; // Only allow one post in Edit
     }
 
     componentDidMount() {
@@ -24,25 +25,27 @@ class Admin extends React.Component {
         const response = await fetch(baseUrl + '/stories', {
             method: 'GET'
         });
-        const data = await response.json();
+        const stories = await response.json();
 
         console.log("getStories: \n");
-        console.log(data);
+        console.log(stories);
 
-        data.forEach(item => item.editMode = false);
-        this.setState({ data });
+        stories.forEach(item => item.editMode = false);
+        this.postInEdit = false;
+
+        this.setState({ stories });
     }
 
     addNewStory = () => {
-        const data = this.state.data;
-        data.unshift({
+        const stories = this.state.stories;
+        stories.unshift({
             editMode: true,
             title: "",
             content: "",
             image: DefaultLogo
         });
-        data.disableAddBtn = true;
-        this.setState({ data });
+        stories.disableAddBtn = true;
+        this.setState({ stories });
     }
 
     handleCancel = async () => {
@@ -50,13 +53,17 @@ class Admin extends React.Component {
     }
 
     handleEdit = (storyId) => {
-        const data = this.state.data.map((item) => {
+        if (this.postInEdit) {
+            return;
+        }
+        const stories = this.state.stories.map((item) => {
             if (item.id === storyId) {
                 item.editMode = true;
+                this.postInEdit = true;
             }
             return item;
         });
-        this.setState({ data });
+        this.setState({ stories });
     }
 
     handleDelete = async (storyId) => {
@@ -100,12 +107,12 @@ class Admin extends React.Component {
                     <div className="x-btn-addpost" >
                         <Button variant="contained" color="primary" 
                                 onClick={this.addNewStory} 
-                                disabled={this.state.data.disableAddBtn}>Add a New Story</Button>
+                                disabled={this.state.stories.disableAddBtn}>Add a New Story</Button>
                     </div>
                     <Grid container spacing={3}>
                         {
-                            this.state.data.length > 0 ? (
-                                this.state.data.map(item =>
+                            this.state.stories.length > 0 ? (
+                                this.state.stories.map(item =>
                                     <Grid item xs={12} sm={6} md={3} lg={2} key={item.id ?? -1}>
                                         <Story item={item}
                                             handleSubmit={this.handleSubmit}

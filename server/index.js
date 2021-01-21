@@ -113,6 +113,7 @@ app.get('/public/uploads/:id', function (req, res) {
 app.get('/timelinePosts/:storyId', timelinePost.getTimelinePosts);
 app.post('/timelinePosts', timelinePost.postTimelinePosts);
 app.put('/timelinePosts/:id', timelinePost.updateTimelinePostById);
+app.delete('/timelinePosts/:storyId/:postId', timelinePost.deleteTimelinePost);
 
 oidc.on('error', err => {
 	// An error occurred while setting up OIDC
