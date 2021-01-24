@@ -16,6 +16,7 @@
     "babel-preset-react-app": "^3.1.2",
     "debug": "^4.3.1",
     "lodash": "^4.17.20",
+    "react-image-crop": "^8.6.6",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

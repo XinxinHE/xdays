@@ -81,18 +81,21 @@ class Timeline extends React.Component {
                 storyId: this.props.storyId
             };
 
+            const headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            };
+
             if (data.get('postId')) {
                 await fetch(`${baseUrl}/timelinePosts/${data.get('postId')}`, {
                     method: 'PUT',
+                    headers: headers,
                     body: body
                 });
             } else {
                 await fetch(`${baseUrl}/timelinePosts`, {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+                    headers: headers,
                     body: JSON.stringify(body)
                 });
             }

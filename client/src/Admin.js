@@ -42,7 +42,8 @@ class Admin extends React.Component {
             editMode: true,
             title: "",
             content: "",
-            image: DefaultLogo
+            image: DefaultLogo,
+            croppedImage: null
         });
         stories.disableAddBtn = true;
         this.setState({ stories });
@@ -81,6 +82,8 @@ class Admin extends React.Component {
             body.append("image", data.get("image"), "postImage");
             body.append("title", data.get("title"));
             body.append("content", data.get("content"));
+            body.append("croppedImage", document.getElementById("storyPic").src);
+
             if (data.get('id')) {
                 await fetch(`${baseUrl}/stories/${data.get('id')}`, {
                     method: 'PUT',

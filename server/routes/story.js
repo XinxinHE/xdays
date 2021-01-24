@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 var storySchema = new Schema({
 	imagePath: String,
 	title: String,
-	content: String
+	content: String,
+	croppedImage: Buffer
 });
 
 var StoryModel = mongoose.model("story", storySchema, "Stories");
@@ -23,6 +24,7 @@ exports.getStories = function (req, res) {
 				item.title = story.title;
 				item.content = story.content;
 				item.id = story._id;
+				item.croppedImage = "data:image/jpeg;base64," + story.croppedImage.toString('base64');
 				response.push(item);
 			});
 			res.json(response);
@@ -32,14 +34,20 @@ exports.getStories = function (req, res) {
 }
 
 exports.postStories = function (req, res) {
-	if (!req.file) {
+	if (!req.file || !req.body.croppedImage) {
 		return;
 	}
+
+	const data = req.body.croppedImage.toString().split(",")[1];
+	const buff = Buffer.from(data, 'base64');
+
 	const newStory = new StoryModel({
 		title: req.body.title,
 		content: req.body.content,
-		imagePath: req.file.path
+		imagePath: req.file.path,
+		croppedImage: buff,
 	});
+
 	newStory.save(function (err, story) {
 		if (err) return console.error(err);
 		res.status(200).json(story);

@@ -20,7 +20,7 @@ function Story(props) {
                 <form encType="multipart/form-data" className="x-card-form" onSubmit={props.handleSubmit} name="formStory">
                     <input type="hidden" name="id" value={props.item.id} />
                     <FormControl>
-                        <ImageUpload defaultImage={props.item.image}/>
+                        <ImageUpload />
                     </FormControl>
                     <FormControl fullWidth={true}>
                         <InputLabel>Title</InputLabel>
@@ -41,7 +41,7 @@ function Story(props) {
             <Card className="x-card-wrapper">
                 <Link to={storyUrl} className="x-card-link">
                     <CardActionArea>
-                        <CardMedia component="img" image={props.item.image} title="image"/>
+                        <CardMedia component="img" image={props.item.croppedImage} title="image"/>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">{props.item.title}</Typography>
                             <Typography variant="body2" color="textSecondary" component="p">{props.item.content}</Typography>
