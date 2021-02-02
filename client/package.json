@@ -12,6 +12,8 @@
   "author": "Xinxin He",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
     "debug": "^4.3.1",

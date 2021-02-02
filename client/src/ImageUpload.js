@@ -19,7 +19,6 @@ class ImageUpload extends React.Component {
     }
 
     handleChange(event) {
-        console.log(event.target.files[0]);
         this.setState({
             imageSrc: URL.createObjectURL(event.target.files[0])
         });
@@ -47,7 +46,6 @@ class ImageUpload extends React.Component {
                 'CroppedImage.jpeg'
             );
             this.setState({ croppedImageUrl });
-            console.log(croppedImageUrl);
         }
     }
 
@@ -70,22 +68,23 @@ class ImageUpload extends React.Component {
             crop.width,
             crop.height
         );
-    
-        return new Promise((resolve, reject) => {
-            resolve(canvas.toDataURL("image/jpeg"));
-            // canvas.toBlob(blob => {
-            //     if (!blob) {
-            //         //reject(new Error('Canvas is empty'));
-            //         console.error('Canvas is empty');
-            //         return;
-            //     }
-            //     this.props.setCoverPicBlob(blob);
-            //     blob.name = fileName;
-            //     window.URL.revokeObjectURL(this.fileUrl);
-            //     this.fileUrl = window.URL.createObjectURL(blob);
-            //     resolve(this.fileUrl);
-            // }, 'image/jpeg');
-        });
+        
+        return canvas.toDataURL("image/jpeg", 1);
+        // return new Promise((resolve, reject) => {
+        //     resolve(canvas.toDataURL("image/jpeg"));
+        //     // canvas.toBlob(blob => {
+        //     //     if (!blob) {
+        //     //         //reject(new Error('Canvas is empty'));
+        //     //         console.error('Canvas is empty');
+        //     //         return;
+        //     //     }
+        //     //     this.props.setCoverPicBlob(blob);
+        //     //     blob.name = fileName;
+        //     //     window.URL.revokeObjectURL(this.fileUrl);
+        //     //     this.fileUrl = window.URL.createObjectURL(blob);
+        //     //     resolve(this.fileUrl);
+        //     // }, 'image/jpeg');
+        // });
     }
     
     render() {

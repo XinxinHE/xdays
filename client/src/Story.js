@@ -41,7 +41,7 @@ function Story(props) {
             <Card className="x-card-wrapper">
                 <Link to={storyUrl} className="x-card-link">
                     <CardActionArea>
-                        <CardMedia component="img" image={props.item.croppedImage} title="image"/>
+                        <CardMedia component="img" image={props.item.image} title="image"/>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">{props.item.title}</Typography>
                             <Typography variant="body2" color="textSecondary" component="p">{props.item.content}</Typography>

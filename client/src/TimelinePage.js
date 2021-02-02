@@ -6,10 +6,19 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import AppNav from "./AppNav.js";
 import TimelinePost from "./TimelinePost.js";
+import AppBreadcrumbs from './AppBreadcrumbs.js';
+
+import Timeline from '@material-ui/lab/Timeline';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
+import TimelineContent from '@material-ui/lab/TimelineContent';
+import TimelineDot from '@material-ui/lab/TimelineDot';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 
 const baseUrl = "http://localhost:8080";
 
-class Timeline extends React.Component {
+class TimelinePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = { timelinePosts: [], disableAddBtn: false };
@@ -108,38 +117,44 @@ class Timeline extends React.Component {
     render() {
         return (
             <div className="x-container">
-                <AppNav/>
-                <Link to="/">Back to home</Link>
-                <h2>Story {this.props.storyid}</h2>
+                <AppNav />
                 <Container>
+                    <AppBreadcrumbs storyTitle={this.props.storyId} />
                     <div className="x-btn-addpost" >
                         <Button variant="contained" color="primary"
-                                onClick={this.addNewTimelinePost} 
-                                disabled={this.state.timelinePosts.disableAddBtn}>Add a new post</Button>
+                            onClick={this.addNewTimelinePost}
+                            disabled={this.state.timelinePosts.disableAddBtn}>Add a new post</Button>
                     </div>
-                    <Grid container spacing={3}>
-                        {
-                            this.state.timelinePosts.length > 0 ? (
-                                this.state.timelinePosts.map(item =>
-                                    <Grid item xs={12} key={item.id ?? -1}>
+                    {
+                        this.state.timelinePosts.length > 0 ? (
+                            this.state.timelinePosts.map(item =>
+                                <TimelineItem key={item.id ?? -1}>
+                                    <TimelineOppositeContent>10:00am</TimelineOppositeContent>
+
+                                    <TimelineSeparator>
+                                        <TimelineDot />
+                                        <TimelineConnector />
+                                    </TimelineSeparator>
+
+                                    <TimelineContent>
                                         <TimelinePost item={item}
                                             handleSubmit={this.handleSubmit}
                                             handleEdit={this.handleEdit.bind(this, item.id)}
                                             handleDelete={this.handleDelete.bind(this, item.id)}
                                             handleCancel={this.handleCancel}
                                         />
-                                    </Grid>)) 
+                                    </TimelineContent>
+                                </TimelineItem>))
                             : (
                                 <div>
                                     <div>You don't have any posts. Use the "Add New Story" button to add some new stories!</div>
                                 </div>
                             )
-                        }
-                    </Grid>
+                    }
                 </Container>
             </div>
         );
     }
 
 }
-export default hot(module)(Timeline);
+export default hot(module)(TimelinePage);

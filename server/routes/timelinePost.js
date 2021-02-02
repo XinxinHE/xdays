@@ -27,8 +27,8 @@ exports.getTimelinePosts = function (req, res) {
 			});
 			res.json(response);
 			console.log("Get timeline posts succussfully!");
-        }
-    });
+                }
+        });
 }
 
 exports.postTimelinePosts = function (req, res) {
@@ -36,8 +36,8 @@ exports.postTimelinePosts = function (req, res) {
 		storyId: req.body.storyId,
 		title: req.body.title,
 		content: req.body.content
-    });
-    console.log(req.body);
+        });
+        console.log(req.body);
 	newTimelinePost.save(function (err, timelinePost) {
 		if (err) return console.error(err);
 		res.status(200).json(timelinePost);
@@ -52,8 +52,8 @@ exports.updateTimelinePostById = function (req, res) {
 	}
 	if (req.body.content) {
 		updateQuery.content = req.body.content;
-    }
-    
+        }
+        
 	PostModel.updateOne({ _id: req.params.id }, {
 		$set: updateQuery
 	}).then(result => {
@@ -71,7 +71,7 @@ exports.deleteTimelinePost = function(req, res) {
 			console.log("Deleted timeline post: ", post);
 		}
 	}).then(result => {
-		res.status(200).json({ message: req.params.storyId + " " + req.params.postId  + " deleted succussfully!" });
+		res.status(200).json({ message: req.params.storyId + " " + req.params.postId    + " deleted succussfully!" });
 		console.log("Deleted timeline post succussfully!");
 	});
 }

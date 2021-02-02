@@ -30,7 +30,8 @@ function AppNav() {
                 <Typography variant="h6" className={classes.title}>
                     X Days
                 </Typography>
-                <Button>Login</Button>
+                <Button>Sign up</Button>
+                <Button>Sign in</Button>
             </Toolbar>
         </AppBar>
         </div>

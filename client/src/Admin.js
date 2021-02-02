@@ -7,8 +7,10 @@ import AppNav from "./AppNav.js";
 import Story from "./Story.js";
 import DefaultLogo from "./img/placeholder-img.png";
 import "./Admin.css";
+import { DataURIToBlob } from "./Utils.js"
 
 const baseUrl = "http://localhost:8080";
+const baseUrlSprint = "http://192.168.0.16:8080";
 
 class Admin extends React.Component {
     constructor(props) {
@@ -22,21 +24,31 @@ class Admin extends React.Component {
     }
 
     getStories = async () => {
-        const response = await fetch(baseUrl + '/stories', {
+        const response = await fetch(`${baseUrlSprint}/story/list`, {
             method: 'GET'
         });
-        const stories = await response.json();
+        response.json().then(res => {
+            const stories = [];
+            res.data.forEach(story => {
+                const item = {
+                    id: story.id,
+                    title: story.title,
+                    content: story.description,
+                    image: "data:image/jpeg;base64," + story.imageContent,
+                }
+                stories.push(item);
+            });
 
-        console.log("getStories: \n");
-        console.log(stories);
-
-        stories.forEach(item => item.editMode = false);
-        this.postInEdit = false;
-
-        this.setState({ stories });
+            console.log("getStories: \n");
+            console.log(stories);
+    
+            stories.forEach(item => item.editMode = false);
+            this.postInEdit = false;
+            this.setState({ stories });
+        });
     }
 
-    addNewStory = () => {
+    addNewStory = async () => {
         const stories = this.state.stories;
         stories.unshift({
             editMode: true,
@@ -84,16 +96,25 @@ class Admin extends React.Component {
             body.append("content", data.get("content"));
             body.append("croppedImage", document.getElementById("storyPic").src);
 
+
+            const testdata = new FormData();
+            testdata.append("image", DataURIToBlob(document.getElementById("storyPic").src));
+            testdata.append("title", data.get("title"));
+            testdata.append("desc", data.get("content"));
+
             if (data.get('id')) {
                 await fetch(`${baseUrl}/stories/${data.get('id')}`, {
                     method: 'PUT',
                     body: body
                 });
             } else {
-                await fetch(`${baseUrl}/stories`, {
-                    method: 'POST',
-                    body: body
+                const response = await fetch(`${baseUrlSprint}/story/create`, {
+                    method: 'PUT',
+                    body: testdata
                 });
+                if (!response || response.status != "200") {
+                    throw new Error("response is invalid" + response);
+                }
             }
             await this.getStories();
         } catch (err) {

@@ -29,8 +29,8 @@ exports.getStories = function (req, res) {
 			});
 			res.json(response);
 			console.log("Get stories succussfully!");
-        }
-    });
+                }
+        });
 }
 
 exports.postStories = function (req, res) {
@@ -76,7 +76,7 @@ exports.updateStoryById = function (req, res) {
 
 exports.deleteStoryById = function (req, res) {
 	StoryModel.findOneAndDelete({ _id: req.params.id }, function (err, story) {
-    	if (err) {
+        	if (err) {
 			console.log(err)
 		}
 		else {
