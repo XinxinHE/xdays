@@ -6,7 +6,9 @@ const Schema = mongoose.Schema;
 var postSchema = new Schema({
 	storyId: String,
 	title: String,
-	content: String
+	content: String,
+	createdAt: Date,
+	updatedAt: Date,
 });
 
 var PostModel = mongoose.model("timelinePost", postSchema, "TimelinePosts");
@@ -19,10 +21,12 @@ exports.getTimelinePosts = function (req, res) {
 			const response = [];
 			result.forEach(post => {
 				const item = {};
+				item.id = post._id;
 				item.title = post.title;
 				item.content = post.content;
 				item.storyId = post.storyId;
-				item.id = post._id;
+				item.createdAt = post.createdAt;
+				item.updatedAt = post.updatedAt;
 				response.push(item);
 			});
 			res.json(response);
@@ -35,7 +39,8 @@ exports.postTimelinePosts = function (req, res) {
 	const newTimelinePost = new PostModel({
 		storyId: req.body.storyId,
 		title: req.body.title,
-		content: req.body.content
+		content: req.body.content,
+		createdAt: req.body.createdAt,
     });
     console.log(req.body);
 	newTimelinePost.save(function (err, timelinePost) {
@@ -47,12 +52,14 @@ exports.postTimelinePosts = function (req, res) {
 
 exports.updateTimelinePostById = function (req, res) {
 	let updateQuery = {};
+	updated.updatedAt = req.body.updatedAt;
+
 	if (req.body.title) {
 		updateQuery.title = req.body.title;
 	}
 	if (req.body.content) {
 		updateQuery.content = req.body.content;
-    }
+	}
     
 	PostModel.updateOne({ _id: req.params.id }, {
 		$set: updateQuery
