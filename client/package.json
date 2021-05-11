@@ -15,7 +15,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
     "debug": "^4.3.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "react-image-crop": "^8.6.6",
     "react-router-dom": "^5.2.0"
   },
